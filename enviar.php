@@ -14,18 +14,19 @@ $mensagem = $_POST['mensagem'];
 	$conexao = new mysqli($servidor, $usuario, $senha, $bancodedados);
 	
 	if ($conexao->connect_error) {
-    die("A conexão falhou: " + $conexao->conexaoect_error);
+    die("A conexão falhou: " + $conexao->connect_error);
     }
 	
 	$sql = "INSERT INTO CONTATO 
-	(CODIGO, NOME, EMAIL, MENSAGEM) VALUES 
-	(coalesce((SELECT MAX(c2.CODIGO) FROM CONTATO c2), 0) + 1,'".$nome."','".$email."','".$mensagem."') ";
+	(NOME, EMAIL, MENSAGEM, ASSUNTO, TELEFONE) VALUES 
+	('".$nome."','".$email."','".$mensagem."','".$assunto."','".$telefone."') ";
 	
 	if (!($conexao->query($sql) === TRUE)) {
-        $conexao->close();
+        
         die("Erro: " . $sql . "<br>" . $conexao->error);
+    }else{
+        echo "Dados enviados com sucesso para o Mysql";
     }
 	
-    // Tratar sucesso no envio dos dados
-    echo "Dados enviados com sucesso para o Mysql";
+    $conexao->close();
 ?>
